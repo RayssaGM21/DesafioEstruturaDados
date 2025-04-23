@@ -34,6 +34,7 @@ def escolher_opcoes_iniciais():
             print()
             # opcao_invalida()
     except:
+        print("")
         #  opcao_invalida()
 
 # cadastrar_orientador()
