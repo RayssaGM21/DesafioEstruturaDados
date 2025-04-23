@@ -13,4 +13,9 @@ def exibir_menu():
     )
     
 def cadastrar_orientador():
-    pass
+    orientador = input("Digite o nome do professor orientador: ")
+    orientadores.append({orientador: []})
+
+# cadastrar_orientador()
+# cadastrar_orientador()
+# print(orientadores)
