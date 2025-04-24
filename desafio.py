@@ -13,7 +13,7 @@ def exibir_menu():
     
 def cadastrar_orientador():
     orientador = input("Digite o nome do professor orientador: ")
-    orientadores[orientadores] = []
+    orientadores[orientador] = []
 
 def cadastrar_aluno():
     nome = input("Digite o nome do aluno: ")
@@ -52,28 +52,28 @@ def funcionalidades():
     match opcao_funcionalidade:
         case 1:
             # Registrar nova entrega.
-            return none
+            return None
         case 2:
             # Registrar nota.
-            return none
+            return None
         case 3:
             # Listar alunos por orientador.
-            return none
+            return None
         case 4:
             # Listar versões entregues por aluno.
-            return none
+            return None
         case 5:
             # Listar pendências de avaliação.
-            return none
+            return None
         case 6:
             # Gerar relatório do orientador.
-            return none
+            return None
         case 7:
             # Voltar ao menu principal.
-            return none
+            return None
         case _:
             print("Default") 
-            return none
+            return None
 
 def escolher_opcoes_iniciais():
     try:
