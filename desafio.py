@@ -52,6 +52,27 @@ def funcionalidades():
     match opcao_funcionalidade:
         case 1:
             # Registrar nova entrega.
+            
+            # Chamar a função de listagem de alunos
+
+
+            print("Selecione o aluno pela matricula: ")
+
+            matricula = input(": ")
+
+
+
+            versao = input("Nome da Versão:     (Exemplos [v2, v3])")
+
+            data = input ("Digite a Data: ")
+
+
+
+            # Dar um append na lista inserindo estes dados dentro da chave entregas, no formato dict{}
+
+
+
+            
             return None
         case 2:
             # Registrar nota.
