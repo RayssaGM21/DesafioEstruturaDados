@@ -1,6 +1,7 @@
 orientadores = []
 alunos = []
 
+
 def exibir_menu():
     print(
         f"""
