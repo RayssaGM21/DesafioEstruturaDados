@@ -13,6 +13,18 @@ def exibir_menu():
 def cadastrar_orientador():
     orientador = input("Digite o nome do professor orientador: ")
     orientadores[orientadores] = []
+
+def cadastrar_aluno():
+    nome = input("Digite o nome do aluno: ")
+    matricula = input("Digite a matricula do aluno: ")
+    orientador = input("Digite o nome do orientador: ")
+    entregas = ()
+    aluno = {"nome": nome,
+     "matricula": matricula,
+     "orientador": orientador,
+     "entregas": entregas}
+    alunos.append(aluno)
+    print(alunos)
     
 def registrar_entrega():
     pass
