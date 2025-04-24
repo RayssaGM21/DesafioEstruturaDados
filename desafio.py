@@ -1,4 +1,4 @@
-orientadores = []
+orientadores = {}
 alunos = []
 
 def exibir_menu():
@@ -12,7 +12,7 @@ def exibir_menu():
     
 def cadastrar_orientador():
     orientador = input("Digite o nome do professor orientador: ")
-    orientadores.append({orientador: []})
+    orientadores[orientadores] = []
     
 def registrar_entrega():
     pass
