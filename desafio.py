@@ -96,6 +96,22 @@ def escolher_opcoes_iniciais():
         print("")
         #  opcao_invalida()
 
+
+def listar_orientadores():
+    print("==== Lista de Orientadores ====")
+    for i in orientadores:
+        print(f"           {i}            ")
+    print("===============================")
+
+
+def listar_alunos():
+    print("==== Lista de Orientadores ====")
+    for i in alunos:
+        print(f"           {i}            ")   
+    print("===============================")
+
+
 # cadastrar_orientador()
 # cadastrar_orientador()
 # print(orientadores)
+
