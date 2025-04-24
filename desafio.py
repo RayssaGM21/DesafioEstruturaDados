@@ -19,7 +19,7 @@ def cadastrar_aluno():
     nome = input("Digite o nome do aluno: ")
     matricula = input("Digite a matricula do aluno: ")
     orientador = input("Digite o nome do orientador: ")
-    entregas = ()
+    entregas = []
     aluno = {"nome": nome,
      "matricula": matricula,
      "orientador": orientador,
@@ -28,7 +28,19 @@ def cadastrar_aluno():
     print(alunos)
     
 def registrar_entrega():
-    pass
+    listar_alunos()
+
+    print("Selecione o aluno pela matricula: ")
+
+    matricula = input(": ")
+
+    versao = input("Nome da Versão:     (Exemplos [v2, v3])")
+
+    data = input ("Digite a Data: ")
+    
+    for i in alunos:
+        if i['matricula'] == matricula:
+            i['entregas'].append((versao,data,None))
 
 def registrar_nota():
     pass
@@ -51,28 +63,7 @@ def funcionalidades():
 
     match opcao_funcionalidade:
         case 1:
-            # Registrar nova entrega.
-            
-            # Chamar a função de listagem de alunos
-
-
-            print("Selecione o aluno pela matricula: ")
-
-            matricula = input(": ")
-
-
-
-            versao = input("Nome da Versão:     (Exemplos [v2, v3])")
-
-            data = input ("Digite a Data: ")
-
-
-
-            # Dar um append na lista inserindo estes dados dentro da chave entregas, no formato dict{}
-
-
-
-            
+            registrar_entrega()
             return None
         case 2:
             # Registrar nota.
@@ -126,13 +117,17 @@ def listar_orientadores():
 
 
 def listar_alunos():
-    print("==== Lista de Orientadores ====")
+    print("==== Lista de Alunos ====")
     for i in alunos:
-        print(f"           {i}            ")   
+        print(f"           {i['nome']}            ")
+        print(f"           {i['matricula']}            ")
+        print(f"           {i['orientador']}            ")
+        print(f"           {i['entregas']}            ")
     print("===============================")
 
 
 # cadastrar_orientador()
 # cadastrar_orientador()
 # print(orientadores)
+
 
