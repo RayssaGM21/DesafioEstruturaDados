@@ -1,5 +1,10 @@
 orientadores = {}
-alunos = []
+alunos = [{"nome": "Matheus Teste",
+     "matricula": 101010,
+     "orientador": "Teste",
+     "entregas":[
+         ("v1", "24/04/2025", None),
+     ]}]
 
 
 def exibir_menu():
@@ -17,7 +22,7 @@ def cadastrar_orientador():
 
 def cadastrar_aluno():
     nome = input("Digite o nome do aluno: ")
-    matricula = input("Digite a matricula do aluno: ")
+    matricula = int(input("Digite a matricula do aluno: "))
     orientador = input("Digite o nome do orientador: ")
     entregas = []
     aluno = {"nome": nome,
@@ -43,7 +48,47 @@ def registrar_entrega():
             i['entregas'].append((versao,data,None))
 
 def registrar_nota():
-    pass
+    listar_orientadores()
+    print("Se identifique como orientador digitando seu Nome")
+
+    orientador_nome = input(": ")
+    alunos_deste_orietador = []
+    alunos_sem_nota = []
+    
+
+    for i in alunos:
+        if i['orientador'] == orientador_nome:
+            alunos_deste_orietador.append(i)
+    for i in alunos_deste_orietador:
+        for i2 in i['entregas']:
+                if i2[2] is None:
+                    alunos_sem_nota.append({
+                        "nome": i['nome'],
+                        "matricula": i['matricula'],
+                        "entregas": (i2[0], i2[1], i2[2])
+                    })
+    print("Alunos e suas Entregas sem Nota")
+    for i in alunos_sem_nota:
+        print(
+            f"""
+            Aluno: {i['nome']}
+            Matrícula: {i['matricula']}
+            Versão: {i['entregas'][0]}
+            Nota: Sem nota.
+            """
+        )
+    print("Escolha o Aluno pela Matrícula")
+    matricula = input(": ")
+    print("Escolha qual a entrega será atribuida a nota")
+    versao = input(": ")
+    nota = input("Nota: ")
+
+    for i in alunos:
+        if i["matricula"] == int(matricula):
+            for index, i2 in enumerate(i["entregas"]):
+                if i2[0] == versao:
+                    nova_entrega = (versao, i2[1], nota)
+                    i["entregas"][index] = nova_entrega
 
 def funcionalidades():
     print(
@@ -130,4 +175,5 @@ def listar_alunos():
 # cadastrar_orientador()
 # print(orientadores)
 
-
+registrar_nota()
+print(alunos)
