@@ -108,6 +108,33 @@ def listar_alunos_por_orientador():
         print(f"Matrícula: {i["matricula"]}")
         print("==================================")
 
+def relatorio_do_orientador ():
+    print("Identifique o orientador pelo nome: ")
+    orientador = input(">")
+    alunos_do_orientador = []
+    alunos_sem_nota = []
+
+    for i in alunos:
+        if i['orientador'] == orientador:
+            alunos_do_orientador.append(i)
+
+    print(f"O orientador {orientador} tem como orientandos os alunos: ")
+    for aluno in alunos_do_orientador:
+        print(aluno)
+
+
+    for y in alunos_do_orientador:
+        for z in y['entregas']:
+                if z[2] is None:
+                    alunos_sem_nota.append({
+                        "nome": y['nome'],
+                        "matricula": y['matricula'],
+                        "entregas": (z[0], z[1], z[2])
+                    })
+    
+    print(f"O orientador {orientador} possui {len(alunos_sem_nota)} alunos sem nota!")
+    
+    
 
 
 
