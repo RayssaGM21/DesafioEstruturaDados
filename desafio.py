@@ -1,4 +1,4 @@
-orientadores = {}
+orientadores = [{"Teste": "Matheus Teste"}]
 alunos = [{"nome": "Matheus Teste",
      "matricula": 101010,
      "orientador": "Teste",
@@ -90,6 +90,27 @@ def registrar_nota():
                     nova_entrega = (versao, i2[1], nota)
                     i["entregas"][index] = nova_entrega
 
+def listar_alunos_por_orientador():
+    listar_orientadores()
+    print("Escolha um orientador pelo nome")
+    nome = input(": ")
+
+    alunos_do_orientador = []
+
+    for i in alunos:
+        if i["orientador"] == nome:
+            alunos_do_orientador.append(i)
+    
+    print(f"Lista de Alunos do Orientador: [{nome}]")
+    for i in alunos_do_orientador:
+        print("==================================")
+        print(f"Nome: {i["nome"]}")
+        print(f"Matrícula: {i["matricula"]}")
+        print("==================================")
+
+
+
+
 def funcionalidades():
     print(
         f"""
@@ -109,10 +130,8 @@ def funcionalidades():
     match opcao_funcionalidade:
         case 1:
             registrar_entrega()
-            return None
         case 2:
-            # Registrar nota.
-            return None
+            registrar_nota()
         case 3:
             # Listar alunos por orientador.
             return None
@@ -175,5 +194,4 @@ def listar_alunos():
 # cadastrar_orientador()
 # print(orientadores)
 
-registrar_nota()
-print(alunos)
+listar_alunos_por_orientador()
