@@ -3,7 +3,10 @@ alunos = [{"nome": "Matheus Teste",
      "matricula": 101010,
      "orientador": "Teste",
      "entregas":[
-         ("v1", "24/04/2025", None),
+         ("v1", "24/04/2025", 10),
+         ("v2", "24/04/2025", None),
+         ("v3", "24/04/2025", None)
+         
      ]}]
 
 
@@ -133,9 +136,26 @@ def relatorio_do_orientador ():
                     })
     
     print(f"O orientador {orientador} possui {len(alunos_sem_nota)} alunos sem nota!")
-    
-    
 
+def versoes_entregues_por_alunos():
+    print("Escolha um aluno pela Matrícula")
+    listar_alunos()
+    aluno_escolhido = []
+
+    matricula = input("Digite a matrícula: ")
+
+    for i in alunos:
+        if i["matricula"] == int(matricula):
+            aluno_escolhido.append(i)
+    
+    for i in aluno_escolhido:
+        print(f"Versões entregues por {i["nome"]}")
+        for i2 in i["entregas"]:
+                print("============================")
+                print(f"Versão: {i2[0]}")
+                print(f"Data: {i2[1]}")
+                print(f"Nota: {i2[2]}")
+                print("============================")
 
 
 def funcionalidades():
@@ -160,11 +180,9 @@ def funcionalidades():
         case 2:
             registrar_nota()
         case 3:
-            # Listar alunos por orientador.
-            return None
+            listar_alunos_por_orientador()
         case 4:
-            # Listar versões entregues por aluno.
-            return None
+            versoes_entregues_por_alunos()
         case 5:
             # Listar pendências de avaliação.
             return None
@@ -221,4 +239,4 @@ def listar_alunos():
 # cadastrar_orientador()
 # print(orientadores)
 
-listar_alunos_por_orientador()
+versoes_entregues_por_alunos()
