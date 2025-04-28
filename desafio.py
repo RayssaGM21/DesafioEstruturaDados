@@ -1,4 +1,4 @@
-orientadores = [{"Teste": "Matheus Teste"}]
+orientadores = [{"Orientador 01": "Matheus Teste"}]
 alunos = [{"nome": "Matheus Teste",
      "matricula": 101010,
      "orientador": "Teste",
@@ -26,29 +26,66 @@ def cadastrar_orientador():
 def cadastrar_aluno():
     nome = input("Digite o nome do aluno: ")
     matricula = int(input("Digite a matricula do aluno: "))
-    orientador = input("Digite o nome do orientador: ")
-    entregas = []
-    aluno = {"nome": nome,
-     "matricula": matricula,
-     "orientador": orientador,
-     "entregas": entregas}
-    alunos.append(aluno)
-    print(alunos)
-    
-def registrar_entrega():
-    listar_alunos()
 
-    print("Selecione o aluno pela matricula: ")
-
-    matricula = input(": ")
-
-    versao = input("Nome da Versão:     (Exemplos [v2, v3])")
-
-    data = input ("Digite a Data: ")
-    
     for i in alunos:
-        if i['matricula'] == matricula:
-            i['entregas'].append((versao,data,None))
+        while i["matricula"] == int(matricula):
+            print("Matrícula já existente.")
+            matricula = int(input("Digite a matricula do aluno: "))
+        
+
+
+    if not orientadores:
+        print("Não há nenhum Orientador criado. É necessário um Orientador atribuido.")
+        cadastrar_orientador()
+    else:
+
+        listar_orientadores()
+
+        orientador = input("Digite o nome do orientador: ")
+        for i in orientadores:
+            if orientador in i:
+                entregas = []
+                aluno = {"nome": nome,
+                "matricula": matricula,
+                "orientador": orientador,
+                "entregas": entregas}
+                alunos.append(aluno)
+
+                
+                for i in orientadores:
+                    for i2 in i:
+                        if i2 == aluno["orientador"]:
+                            i2 = aluno["nome"]
+            else:
+                print("Digite um Orientador válido.")
+        print("Aluno cadastrado!")
+
+def registrar_entrega():
+    if not alunos:
+        print("Não há nenhum aluno criado")
+    else:
+        listar_alunos()
+
+        print("Selecione o aluno pela matricula: ")
+
+        matricula = input(": ")
+
+        versao = input("Nome da Versão:     (Exemplos [v2, v3])")
+
+        data = input ("Digite a Data: ")
+
+        for i in alunos:
+            if i["matricula"] == int(matricula):
+                for i2 in i["entregas"]:
+                    if i2[2] == None:
+                        print()
+                        print("Você ainda não pode cadastrar uma nova versão.")
+                        print("Seu Orientador precisa avaliar a última versão.")
+                        return
+        
+        for i in alunos:
+            if i['matricula'] == matricula:
+                i['entregas'].append((versao,data,None))
 
 def registrar_nota():
     listar_orientadores()
@@ -240,22 +277,22 @@ def escolher_opcoes_iniciais():
 
 def listar_orientadores():
     print("==== Lista de Orientadores ====")
+    print()
     for i in orientadores:
-        print(f"           {i}            ")
-    print("===============================")
+        for chave in i.keys():
+            print("===============================")
+            print(f"  {chave}")
+            print("===============================")
 
 
 def listar_alunos():
     print("==== Lista de Alunos ====")
     for i in alunos:
+        print("===============================")
         print(f"           {i['nome']}            ")
         print(f"           {i['matricula']}            ")
         print(f"           {i['orientador']}            ")
         print(f"           {i['entregas']}            ")
-    print("===============================")
+        print("===============================")
 
-
-# cadastrar_orientador()
-# cadastrar_orientador()
-# print(orientadores)
-
+cadastrar_aluno()
