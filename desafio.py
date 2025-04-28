@@ -157,6 +157,28 @@ def versoes_entregues_por_alunos():
                 print(f"Nota: {i2[2]}")
                 print("============================")
 
+def pendencias_de_avaliacao():
+    pendentes_de_avalicao = []
+
+    for i in alunos:
+        for i2 in i["entregas"]:
+                if i2[2] == None:
+                    pendentes_de_avalicao.append({
+                        "nome":i["nome"],
+                        "entregas": (
+                            i2[0],i2[1],i2[2]
+                        )
+                    })
+    print("Pendências de Alunos")
+    for i in pendentes_de_avalicao:
+        print("===========================")
+        print(f"Aluno: {i["nome"]}")
+        print(f"Entrega: {i["entregas"][0]}")
+        print(f"Data: {i["entregas"][1]}")
+        print(f"Nota: Pendente")
+        print("===========================")
+        print()
+
 
 def funcionalidades():
     print(
@@ -184,11 +206,9 @@ def funcionalidades():
         case 4:
             versoes_entregues_por_alunos()
         case 5:
-            # Listar pendências de avaliação.
-            return None
+            pendencias_de_avaliacao()
         case 6:
-            # Gerar relatório do orientador.
-            return None
+            relatorio_do_orientador()
         case 7:
             # Voltar ao menu principal.
             return None
@@ -203,10 +223,10 @@ def escolher_opcoes_iniciais():
             cadastrar_orientador()
         elif opcao_escolhida == "2":
             print()
-            # cadastrar_aluno()
+            cadastrar_aluno()
         elif opcao_escolhida == "3":
             print()
-            # mostrar_opcoes()
+            funcionalidades()
         elif opcao_escolhida == "q":
             print()
             # sair()
@@ -239,4 +259,3 @@ def listar_alunos():
 # cadastrar_orientador()
 # print(orientadores)
 
-versoes_entregues_por_alunos()
