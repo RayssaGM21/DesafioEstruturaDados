@@ -85,7 +85,12 @@ def registrar_entrega():
         print("Matrícula inválida.")
         return
 
-    aluno = next((a for a in alunos if a["matricula"] == matricula), None)
+    aluno = None
+    for a in alunos:
+        if a["matricula"] == matricula:
+            aluno = a
+            break
+
     if not aluno:
         print("Aluno não encontrado.")
         return
@@ -156,7 +161,12 @@ def versoes_entregues_por_alunos():
         print("Matrícula inválida.")
         return
 
-    aluno = next((a for a in alunos if a["matricula"] == matricula), None)
+    aluno = None
+    for a in alunos:
+        if a["matricula"] == matricula:
+            aluno = a
+            break
+
     if not aluno:
         print("Aluno não encontrado.")
         return
