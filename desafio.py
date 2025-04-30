@@ -1,298 +1,248 @@
-orientadores = [{"Orientador 01": "Matheus Teste"}]
-alunos = [{"nome": "Matheus Teste",
-     "matricula": 101010,
-     "orientador": "Teste",
-     "entregas":[
-         ("v1", "24/04/2025", 10),
-         ("v2", "24/04/2025", None),
-         ("v3", "24/04/2025", None)
-         
-     ]}]
-
+orientadores = {}
+alunos = []
 
 def exibir_menu():
-    print(
-        f"""
-        1. Cadastrar alunos.\n
-        2. Cadastrar orientadores.\n
-        3. Realizar operações.\n
-        """
-    )
-    
+    print("""
+===== MENU PRINCIPAL =====
+1. Cadastrar orientadores
+2. Cadastrar alunos
+3. Realizar operações
+q. Sair
+==========================
+""")
+
 def cadastrar_orientador():
     orientador = input("Digite o nome do professor orientador: ")
-    orientadores[orientador] = []
+    if not orientador:
+        print("Nome inválido.")
+        return
+    if orientador in orientadores:
+        print("Orientador já cadastrado.")
+    else:
+        orientadores[orientador] = []
+        print(f"Orientador '{orientador}' cadastrado com sucesso.")
 
 def cadastrar_aluno():
     nome = input("Digite o nome do aluno: ")
-    matricula = int(input("Digite a matricula do aluno: "))
+    if not nome:
+        print("Nome inválido.")
+        return
 
-    for i in alunos:
-        while i["matricula"] == int(matricula):
-            print("Matrícula já existente.")
-            matricula = int(input("Digite a matricula do aluno: "))
-        
+    try:
+        matricula = int(input("Digite a matrícula do aluno: "))
+    except ValueError:
+        print("Matrícula deve ser um número.")
+        return
 
+    if any(aluno["matricula"] == matricula for aluno in alunos):
+        print("Matrícula já cadastrada.")
+        return
 
     if not orientadores:
-        print("Não há nenhum Orientador criado. É necessário um Orientador atribuido.")
-        cadastrar_orientador()
-    else:
+        print("Nenhum orientador cadastrado. Cadastre um primeiro.")
+        return
 
-        listar_orientadores()
+    listar_orientadores()
+    orientador = input("Digite o nome do orientador: ")
+    if orientador not in orientadores:
+        print("Orientador não encontrado.")
+        return
 
-        orientador = input("Digite o nome do orientador: ")
-        for i in orientadores:
-            if orientador in i:
-                entregas = []
-                aluno = {"nome": nome,
-                "matricula": matricula,
-                "orientador": orientador,
-                "entregas": entregas}
-                alunos.append(aluno)
+    novo_aluno = {
+        "nome": nome,
+        "matricula": matricula,
+        "orientador": orientador,
+        "entregas": []
+    }
 
-                
-                for i in orientadores:
-                    for i2 in i:
-                        if i2 == aluno["orientador"]:
-                            i2 = aluno["nome"]
-            else:
-                print("Digite um Orientador válido.")
-        print("Aluno cadastrado!")
+    alunos.append(novo_aluno)
+    orientadores[orientador].append(nome)
+    print(f"Aluno '{nome}' cadastrado com sucesso!")
+
+def listar_orientadores():
+    print("==== Orientadores Cadastrados ====")
+    if not orientadores:
+        print("Nenhum orientador disponível.")
+    for nome in orientadores:
+        print(f"- {nome}")
+
+def listar_alunos():
+    print("==== Alunos Cadastrados ====")
+    if not alunos:
+        print("Nenhum aluno cadastrado.")
+    for aluno in alunos:
+        print(f"{aluno['nome']} | Matrícula: {aluno['matricula']} | Orientador: {aluno['orientador']}")
 
 def registrar_entrega():
     if not alunos:
-        print("Não há nenhum aluno criado")
-    else:
-        listar_alunos()
+        print("Nenhum aluno cadastrado.")
+        return
 
-        print("Selecione o aluno pela matricula: ")
+    listar_alunos()
+    try:
+        matricula = int(input("Digite a matrícula do aluno: "))
+    except ValueError:
+        print("Matrícula inválida.")
+        return
 
-        matricula = input(": ")
+    aluno = next((a for a in alunos if a["matricula"] == matricula), None)
+    if not aluno:
+        print("Aluno não encontrado.")
+        return
 
-        versao = input("Nome da Versão:     (Exemplos [v2, v3])")
+    if aluno["entregas"] and aluno["entregas"][-1][2] is None:
+        print("A última entrega ainda não foi avaliada. Aguarde a avaliação antes de enviar nova versão.")
+        return
 
-        data = input ("Digite a Data: ")
-
-        for i in alunos:
-            if i["matricula"] == int(matricula):
-                for i2 in i["entregas"]:
-                    if i2[2] == None:
-                        print()
-                        print("Você ainda não pode cadastrar uma nova versão.")
-                        print("Seu Orientador precisa avaliar a última versão.")
-                        return
-        
-        for i in alunos:
-            if i['matricula'] == matricula:
-                i['entregas'].append((versao,data,None))
+    versao = input("Digite o nome da versão (ex: v1, v2): ")
+    data = input("Digite a data (formato YYYY-MM-DD): ")
+    aluno["entregas"].append((versao, data, None))
+    print("Entrega registrada com sucesso!")
 
 def registrar_nota():
     listar_orientadores()
-    print("Se identifique como orientador digitando seu Nome")
+    orientador = input("Digite seu nome (orientador): ")
 
-    orientador_nome = input(": ")
-    alunos_deste_orietador = []
-    alunos_sem_nota = []
-    
+    if orientador not in orientadores:
+        print("Orientador não encontrado.")
+        return
 
-    for i in alunos:
-        if i['orientador'] == orientador_nome:
-            alunos_deste_orietador.append(i)
-    for i in alunos_deste_orietador:
-        for i2 in i['entregas']:
-                if i2[2] is None:
-                    alunos_sem_nota.append({
-                        "nome": i['nome'],
-                        "matricula": i['matricula'],
-                        "entregas": (i2[0], i2[1], i2[2])
-                    })
-    print("Alunos e suas Entregas sem Nota")
-    for i in alunos_sem_nota:
-        print(
-            f"""
-            Aluno: {i['nome']}
-            Matrícula: {i['matricula']}
-            Versão: {i['entregas'][0]}
-            Nota: Sem nota.
-            """
-        )
-    print("Escolha o Aluno pela Matrícula")
-    matricula = input(": ")
-    print("Escolha qual a entrega será atribuida a nota")
-    versao = input(": ")
-    nota = input("Nota: ")
+    alunos_orientados = [a for a in alunos if a["orientador"] == orientador]
+    pendentes = []
 
-    for i in alunos:
-        if i["matricula"] == int(matricula):
-            for index, i2 in enumerate(i["entregas"]):
-                if i2[0] == versao:
-                    nova_entrega = (versao, i2[1], nota)
-                    i["entregas"][index] = nova_entrega
+    for aluno in alunos_orientados:
+        for entrega in aluno["entregas"]:
+            if entrega[2] is None:
+                pendentes.append((aluno, entrega))
+
+    if not pendentes:
+        print("Nenhuma entrega pendente de nota.")
+        return
+
+    print("\nEntregas pendentes:")
+    for aluno, entrega in pendentes:
+        print(f"Aluno: {aluno['nome']} | Matrícula: {aluno['matricula']} | Versão: {entrega[0]}")
+
+    try:
+        matricula = int(input("Digite a matrícula do aluno: "))
+        versao = input("Digite a versão a ser avaliada: ")
+        nota = float(input("Digite a nota: "))
+    except ValueError:
+        print("Erro: matrícula e nota devem ser números válidos.")
+        return
+
+    for aluno in alunos:
+        if aluno["matricula"] == matricula:
+            for i, ent in enumerate(aluno["entregas"]):
+                if ent[0] == versao and ent[2] is None:
+                    aluno["entregas"][i] = (ent[0], ent[1], nota)
+                    print("Nota registrada com sucesso!")
+                    return
+    print("Entrega não encontrada ou já avaliada.")
 
 def listar_alunos_por_orientador():
     listar_orientadores()
-    print("Escolha um orientador pelo nome")
-    nome = input(": ")
-
-    alunos_do_orientador = []
-
-    for i in alunos:
-        if i["orientador"] == nome:
-            alunos_do_orientador.append(i)
-    
-    print(f"Lista de Alunos do Orientador: [{nome}]")
-    for i in alunos_do_orientador:
-        print("==================================")
-        print(f"Nome: {i["nome"]}")
-        print(f"Matrícula: {i["matricula"]}")
-        print("==================================")
-
-def relatorio_do_orientador ():
-    print("Identifique o orientador pelo nome: ")
-    orientador = input(">")
-    alunos_do_orientador = []
-    alunos_sem_nota = []
-
-    for i in alunos:
-        if i['orientador'] == orientador:
-            alunos_do_orientador.append(i)
-
-    print(f"O orientador {orientador} tem como orientandos os alunos: ")
-    for aluno in alunos_do_orientador:
-        print(aluno)
-
-
-    for y in alunos_do_orientador:
-        for z in y['entregas']:
-                if z[2] is None:
-                    alunos_sem_nota.append({
-                        "nome": y['nome'],
-                        "matricula": y['matricula'],
-                        "entregas": (z[0], z[1], z[2])
-                    })
-    
-    print(f"O orientador {orientador} possui {len(alunos_sem_nota)} alunos sem nota!")
+    nome = input("Digite o nome do orientador: ")
+    print(f"\nAlunos do orientador {nome}:")
+    for aluno in alunos:
+        if aluno["orientador"] == nome:
+            print(f"- {aluno['nome']} (Matrícula: {aluno['matricula']})")
 
 def versoes_entregues_por_alunos():
-    print("Escolha um aluno pela Matrícula")
     listar_alunos()
-    aluno_escolhido = []
+    try:
+        matricula = int(input("Digite a matrícula do aluno: "))
+    except ValueError:
+        print("Matrícula inválida.")
+        return
 
-    matricula = input("Digite a matrícula: ")
+    aluno = next((a for a in alunos if a["matricula"] == matricula), None)
+    if not aluno:
+        print("Aluno não encontrado.")
+        return
 
-    for i in alunos:
-        if i["matricula"] == int(matricula):
-            aluno_escolhido.append(i)
-    
-    for i in aluno_escolhido:
-        print(f"Versões entregues por {i["nome"]}")
-        for i2 in i["entregas"]:
-                print("============================")
-                print(f"Versão: {i2[0]}")
-                print(f"Data: {i2[1]}")
-                print(f"Nota: {i2[2]}")
-                print("============================")
+    print(f"\nEntregas do aluno {aluno['nome']}:")
+    for entrega in aluno["entregas"]:
+        nota = entrega[2] if entrega[2] is not None else "Pendente"
+        print(f"Versão: {entrega[0]} | Data: {entrega[1]} | Nota: {nota}")
 
 def pendencias_de_avaliacao():
-    pendentes_de_avalicao = []
+    print("==== Pendências de Avaliação ====")
+    for aluno in alunos:
+        for entrega in aluno["entregas"]:
+            if entrega[2] is None:
+                print(f"{aluno['nome']} | Versão: {entrega[0]} | Data: {entrega[1]}")
 
-    for i in alunos:
-        for i2 in i["entregas"]:
-                if i2[2] == None:
-                    pendentes_de_avalicao.append({
-                        "nome":i["nome"],
-                        "entregas": (
-                            i2[0],i2[1],i2[2]
-                        )
-                    })
-    print("Pendências de Alunos")
-    for i in pendentes_de_avalicao:
-        print("===========================")
-        print(f"Aluno: {i["nome"]}")
-        print(f"Entrega: {i["entregas"][0]}")
-        print(f"Data: {i["entregas"][1]}")
-        print(f"Nota: Pendente")
-        print("===========================")
-        print()
+def relatorio_do_orientador():
+    orientador = input("Digite o nome do orientador: ")
+    if orientador not in orientadores:
+        print("Orientador não encontrado.")
+        return
 
+    notas_ultimas = []
+    print(f"\nRelatório do orientador {orientador}:\n")
+
+    for aluno in alunos:
+        if aluno["orientador"] == orientador:
+            avaliacoes = [entrega[2] for entrega in aluno["entregas"] if entrega[2] is not None]
+            if avaliacoes:
+                media = sum(avaliacoes) / len(avaliacoes)
+                print(f"{aluno['nome']}: média das versões = {media:.2f}")
+                notas_ultimas.append(avaliacoes[-1])
+            else:
+                print(f"{aluno['nome']}: sem entregas avaliadas.")
+
+    if notas_ultimas:
+        media_geral = sum(notas_ultimas) / len(notas_ultimas)
+        print(f"\nMédia geral da última versão avaliada de cada aluno: {media_geral:.2f}")
+    else:
+        print("Sem notas avaliadas para cálculo de média geral.")
 
 def funcionalidades():
-    print(
-        f"""
-        Digite uma das opçoes:
-
-1 - Registrar nova entrega.
-2 - Registrar nota.
-3 - Listar alunos por orientador.
-4 - Listar versões entregues por aluno.
-5 - Listar pendências de avaliação.
-6 - Gerar relatório do orientador.
-7 - Voltar ao menu principal.
-       """
-    )
-    opcao_funcionalidade = input(": ")
-
-    match opcao_funcionalidade:
-        case 1:
+    while True:
+        print("""
+===== FUNCIONALIDADES =====
+1. Registrar nova entrega
+2. Registrar nota
+3. Listar alunos por orientador
+4. Listar versões entregues por aluno
+5. Listar pendências de avaliação
+6. Gerar relatório do orientador
+q. Voltar ao menu principal
+===========================
+""")
+        opcao = input("Escolha uma opção: ").lower()
+        if opcao == "1":
             registrar_entrega()
-        case 2:
+        elif opcao == "2":
             registrar_nota()
-        case 3:
+        elif opcao == "3":
             listar_alunos_por_orientador()
-        case 4:
+        elif opcao == "4":
             versoes_entregues_por_alunos()
-        case 5:
+        elif opcao == "5":
             pendencias_de_avaliacao()
-        case 6:
+        elif opcao == "6":
             relatorio_do_orientador()
-        case 7:
-            # Voltar ao menu principal.
-            return None
-        case _:
-            print("Default") 
-            return None
+        elif opcao == "q":
+            break
+        else:
+            print("Opção inválida.")
 
 def escolher_opcoes_iniciais():
-    try:
-        opcao_escolhida = input('Escolha uma opção: ')
-        if opcao_escolhida == "1":
+    while True:
+        exibir_menu()
+        opcao = input("Escolha uma opção: ").lower()
+        if opcao == "1":
             cadastrar_orientador()
-        elif opcao_escolhida == "2":
-            print()
+        elif opcao == "2":
             cadastrar_aluno()
-        elif opcao_escolhida == "3":
-            print()
+        elif opcao == "3":
             funcionalidades()
-        elif opcao_escolhida == "q":
-            print()
-            # sair()
+        elif opcao == "q":
+            print("Saindo do sistema...")
+            break
         else:
-            print()
-            # opcao_invalida()
-    except:
-        print("")
-        #  opcao_invalida()
+            print("Opção inválida.")
 
-
-def listar_orientadores():
-    print("==== Lista de Orientadores ====")
-    print()
-    for i in orientadores:
-        for chave in i.keys():
-            print("===============================")
-            print(f"  {chave}")
-            print("===============================")
-
-
-def listar_alunos():
-    print("==== Lista de Alunos ====")
-    for i in alunos:
-        print("===============================")
-        print(f"           {i['nome']}            ")
-        print(f"           {i['matricula']}            ")
-        print(f"           {i['orientador']}            ")
-        print(f"           {i['entregas']}            ")
-        print("===============================")
-
-cadastrar_aluno()
+escolher_opcoes_iniciais()
